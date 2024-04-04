@@ -29,7 +29,7 @@ async def summarize_text(req_body: geminiProSummarizeRequestBody):
         summarizable_text=req_body.text
     )
     
-    genai.configure(api_key=api_key)
+    genai.configure(api_key=api_key, transport="grpc")
     model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(
         summarize_prompt,

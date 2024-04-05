@@ -1,3 +1,5 @@
+from pydoc import doc
+from proto import Message
 import yaml
 import os
 import logging
@@ -6,11 +8,12 @@ import asyncio
 
 import google.generativeai as genai
 from fastapi import FastAPI, WebSocket, HTTPException, WebSocketDisconnect
-from typing import Annotated
 from fastapi.responses import StreamingResponse, RedirectResponse
 
 from Datamodels.summarize_request import SummarizeRequest
-from RequestHandlers import DocumentChatHandler
+from RequestHandlers.DocumentChatHandler import DocumentChatHandler
+from Datamodels.docchat_request import DocumentChatRequest
+from Datamodels.messages import Message
 
 app = FastAPI()
 
@@ -21,7 +24,7 @@ def get_gemini_api_key() -> str:
 async def root():
     return {"message": "Hello World"}
 
-@app.post("/v1/model/gemini-pro:create-chat-heading")
+@app.post("/v1/model/gemini-pro:generate-chat-heading")
 async def create_heading(req_body):
     pass
 
@@ -65,16 +68,36 @@ async def webpage_chat(websocket: WebSocket):
     await websocket.accept()
     api_key = get_gemini_api_key()
     file_data = await websocket.receive_bytes()
-    client_handler = DocumentChatHandler()
+    client_handler = DocumentChatHandler(
+        document=file_data,
+        api_key=api_key
+    )
+    
+    client_handler.one_shot_embed()
     
     try:
         while True:
-            user_questions = await asyncio.wait_for(
+            chat_request = await asyncio.wait_for(
                 websocket.receive_json(), 
                 timeout=10
             )
+            
+            chat_request = DocumentChatRequest.model_validate(chat_request)
+            
+            new_user_message = Message(
+                role="user", 
+                parts=[chat_request.new_question]
+            )
+            
+            chat_request.history.append(new_user_message)
+            
+            output = client_handler.chat()
+            
+            for data in output:
+                await websocket.send_text(data) 
     except asyncio.TimeoutError:
         await websocket.close()
-    except WebSocketDisconnect
+    except WebSocketDisconnect:
+        print("Client Closed Connection!")
     
     

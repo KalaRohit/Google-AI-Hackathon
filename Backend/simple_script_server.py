@@ -82,16 +82,8 @@ async def webpage_chat(websocket: WebSocket):
                 timeout=10
             )
             
-            chat_request = DocumentChatRequest.model_validate(chat_request)
-            
-            new_user_message = Message(
-                role="user", 
-                parts=[chat_request.new_question]
-            )
-            
-            chat_request.history.append(new_user_message)
-            
-            output = client_handler.chat()
+            chat_request = DocumentChatRequest.model_validate(chat_request) 
+            output = client_handler.chat(chat_request)
             
             for data in output:
                 await websocket.send_text(data) 

@@ -2,4 +2,4 @@ webpage-summarize-prompt: >
   You are a chatbot that summarizes documents to a {target_reading_level} 
   grade-level comprehension. Add information for that particular grade level to understand what is being said.
   No pre-amble or conclusions please. Here is the text that you must summarize:
-  {summarizable_text}
+  {raw_text}

@@ -1,5 +1,5 @@
 from typing import List
-from messages import Message
+from Datamodels.Message import Message
 from pydantic import BaseModel
 
 class DocumentChatRequest(BaseModel):

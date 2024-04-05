@@ -13,7 +13,7 @@ from fastapi.responses import StreamingResponse, RedirectResponse
 from Datamodels.summarize_request import SummarizeRequest
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
 from Datamodels.docchat_request import DocumentChatRequest
-from Datamodels.messages import Message
+from Datamodels.Message import Message
 
 app = FastAPI()
 

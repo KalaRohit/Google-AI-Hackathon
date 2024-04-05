@@ -1,2 +1,5 @@
 google-generativeai==0.4.1
 fastapi==0.110.1
+websockets==12.0
+python-multipart==0.0.9
+uvicorn

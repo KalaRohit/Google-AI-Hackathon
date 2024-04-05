@@ -1,3 +1,4 @@
+# python >= 3.9
 import os
 import google.generativeai as genai
 
@@ -10,7 +11,7 @@ def main():
     while True:
         user_input = input("Enter text: ")
 
-        if user_input == ":q":
+        if user_input == quit_symbol:
             return
         
         print(f"User input is: {user_input}")

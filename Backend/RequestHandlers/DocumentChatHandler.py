@@ -82,7 +82,7 @@ class DocumentChatHandler:
         for message in request.history:
             gemini_compaitible_history.append(message.get_gemini_format())
         print("One shot embedding...")
-        await self.one_shot_embed()
+        
         context = await self.generate_context_for_question(question=request.new_question)
         
         request.new_question += f"Additional information to help you answer this question: {context}"

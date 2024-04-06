@@ -73,7 +73,7 @@ async def webpage_chat(websocket: WebSocket):
         api_key=api_key,
         document_name="test"
     )
-    
+    client_handler.embed_text()
     try:
         while True:
             chat_request = await asyncio.wait_for(

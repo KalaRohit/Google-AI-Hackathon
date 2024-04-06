@@ -31,15 +31,11 @@ class DocumentChatHandler:
         print("Embedding Text...")
         
         embedding_model = TextEmbeddingModel.from_pretrained("textembedding-gecko@001")
-        vector_collection = []
-        text_collection = []
         async for page_text in self.parse_document():
             embeddings = embedding_model.get_embeddings([page_text])
             vector = embeddings[0].values
-            vector_collection.append(vector)
-            text_collection.append(page_text)
         
-        return vector_collection, text_collection
+            yield vector, page_text
         
     async def one_shot_embed(self):
         print("Embedding Collection...")
@@ -49,10 +45,10 @@ class DocumentChatHandler:
             vectors_config=VectorParams(size=768, distance=Distance.COSINE)
         )
 
-        vector_collection, text_collection = await self.embed_text()
+        
         
         index = 0
-        for vector, text in zip(vector_collection, text_collection):
+        async for vector, text in self.embed_text():
             qdrant_client.upsert(
                 collection_name=self.document_name,
                 points=[PointStruct(id=index, vector=vector, payload={"key": text})]

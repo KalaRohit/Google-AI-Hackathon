@@ -63,30 +63,32 @@ async def summarize_text(req_body: SummarizeRequest):
         
     return StreamingResponse(stream_model_output(), media_type="text")
 
-@app.websocket("ws/v1/model/gemini-pro:document-chat")
+@app.websocket("/ws/v1/model/gemini-pro:document-chat")
 async def webpage_chat(websocket: WebSocket):
     await websocket.accept()
     api_key = get_gemini_api_key()
     file_data = await websocket.receive_bytes()
     client_handler = DocumentChatHandler(
         document=file_data,
-        api_key=api_key
+        api_key=api_key,
+        document_name="test"
     )
-    
-    client_handler.one_shot_embed()
     
     try:
         while True:
             chat_request = await asyncio.wait_for(
                 websocket.receive_json(), 
-                timeout=10
+                timeout=1000
             )
             
             chat_request = DocumentChatRequest.model_validate(chat_request) 
-            output = client_handler.chat(chat_request)
+            output = await client_handler.chat(chat_request)
             
             for data in output:
-                await websocket.send_text(data) 
+                await websocket.send_text(data)
+                
+            await websocket.send_text("end_of_stream")
+                 
     except asyncio.TimeoutError:
         await websocket.close()
     except WebSocketDisconnect:

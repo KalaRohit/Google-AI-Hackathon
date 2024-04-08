@@ -1,10 +1,20 @@
 {
     "manifest_version": 3,
     "name": "Simple Script",
-    "description": "Base Level Extension",
+    "description": "This is our description",
     "version": "1.0",
     "action": {
       "default_popup": "index.html"
-      
+    },
+    "content_scripts": [
+      {
+        "js": ["content.js"],
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ],
+    "background": {
+      "service_worker": "background.js"
     }
   }

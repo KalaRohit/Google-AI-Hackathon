@@ -5,15 +5,20 @@ import os
 import logging
 import time
 import asyncio
+import uuid
+from typing import Annotated
+
 
 import google.generativeai as genai
-from fastapi import FastAPI, WebSocket, HTTPException, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, HTTPException, UploadFile, BackgroundTasks
 from fastapi.responses import StreamingResponse, RedirectResponse
 
-from Datamodels.summarize_request import SummarizeRequest
+from RequestHandlers.DocumentHandler import DocumentHandler
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
-from Datamodels.docchat_request import DocumentChatRequest
+
 from Datamodels.Message import Message
+from Datamodels.Requests import SummarizeRequest, DocumentChatRequest
+from Datamodels.Responses import DocumentUploadResponse
 
 app = FastAPI()
 
@@ -63,33 +68,26 @@ async def summarize_text(req_body: SummarizeRequest):
         
     return StreamingResponse(stream_model_output(), media_type="text")
 
-@app.websocket("ws/v1/model/gemini-pro:document-chat")
-async def webpage_chat(websocket: WebSocket):
-    await websocket.accept()
-    api_key = get_gemini_api_key()
-    file_data = await websocket.receive_bytes()
-    client_handler = DocumentChatHandler(
-        document=file_data,
-        api_key=api_key
-    )
+@app.post("/v1/model/gemini-pro:document-chat")
+async def webpage_chat(request: DocumentChatRequest):
+    print(type(request))
+    chat_handler = DocumentChatHandler(request=request)
     
-    client_handler.one_shot_embed()
-    
-    try:
-        while True:
-            chat_request = await asyncio.wait_for(
-                websocket.receive_json(), 
-                timeout=10
-            )
-            
-            chat_request = DocumentChatRequest.model_validate(chat_request) 
-            output = client_handler.chat(chat_request)
-            
-            for data in output:
-                await websocket.send_text(data) 
-    except asyncio.TimeoutError:
-        await websocket.close()
-    except WebSocketDisconnect:
-        print("Client Closed Connection!")
+    return {"response": {chat_handler.model_chat()}}
     
     
+    
+@app.post("/v1/documents", status_code=202)
+async def receive_client_file(req_body: UploadFile, background_tasks: BackgroundTasks):
+    if req_body.content_type != "application/pdf":
+        raise HTTPException(status_code=415, detail="User did not submit a PDF.")
+    
+    doc_handler = DocumentHandler(document=req_body)
+    document_id = str(doc_handler.document_id)
+    background_tasks.add_task(doc_handler.one_shot_embed)
+    
+    return DocumentUploadResponse(document_id=document_id, error=False).model_dump_json(indent=4)
+
+@app.delete("v1/documents/{doc_id}", status_code=202)
+async def mark_document_for_deletion():
+    pass

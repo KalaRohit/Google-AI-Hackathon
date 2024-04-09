@@ -1,16 +1,15 @@
 import os
 import re
+import pprint
+
 import google.generativeai as genai 
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams, PointStruct
 from vertexai.language_models import TextEmbeddingModel
 
 from openai import OpenAI
 import yaml
 
 from Datamodels.Requests import DocumentChatRequest
-from Datamodels.Message import Message
-import pprint
 
 class DocumentChatHandler:
     def __init__(self, request: DocumentChatRequest) -> None:
@@ -77,8 +76,6 @@ class DocumentChatHandler:
             ]
         )
         
-        print("Finished summarizing...")
-        print(response.choices[0].message.content)
         return response.choices[0].message.content
             
     def model_chat(self):
@@ -98,9 +95,8 @@ class DocumentChatHandler:
                 user_query=self.request.new_question
             )
         
-        
-        print(prompt)
         chat = model.start_chat(
+            history=messages,
             enable_automatic_function_calling=True
         )
         

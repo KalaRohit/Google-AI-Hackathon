@@ -1,13 +1,14 @@
 import os
-
+import re
 import google.generativeai as genai 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 from vertexai.language_models import TextEmbeddingModel
+
+from openai import OpenAI
 import yaml
 
 from Datamodels.Requests import DocumentChatRequest
-# from Datamodels.Responses import DocumentUploadResponse
 from Datamodels.Message import Message
 import pprint
 
@@ -15,8 +16,7 @@ class DocumentChatHandler:
     def __init__(self, request: DocumentChatRequest) -> None:
         self.request = request
         
-    
-    def get_relevant_context_from_vector_store(self, document_id: str, search_query: str) -> str:
+    def get_relevant_context_from_vector_store(self, document_id: str, search_query: str, limit: int = 5) -> str:
         """
         Query a vector store to get some relevant context on a search query
         
@@ -40,7 +40,7 @@ class DocumentChatHandler:
         search_result = qdrant_client.search(
             collection_name=document_id,
             query_vector=embedded_question,
-            limit=3
+            limit=20
         )
         
         context = ""
@@ -50,32 +50,44 @@ class DocumentChatHandler:
             
             context += payload
         
-        print(context.replace("\\n", ""))
+        context = self.summarize_text(text=context)
         
-        return context.replace("\\n", "")
+        return context
     
     def summarize_text(self, text: str) -> str:
         """
+        For some reason, gemini really struggled to map reduce the context in this call,
+        using gpt-4 turbo for this use case as gemini 1.5 isn't publicly available.
         
+        gpt-4 turbo can handle upto 20, gemini can barely do 1-2...
         """
         print("In summarize text...")
-        API_KEY = os.getenv("GEMINI_API_KEY", "")
-        model = genai.GenerativeModel(
-            'gemini-pro'
+        print(text)
+        pattern = r'\\|[\n\r\t\f\v]'
+        replacement = ' '
+        clean_text = re.sub(pattern, replacement, text)
+        
+        client = OpenAI()
+
+        response = client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[
+                {"role": "system", "content": "You are to give an overview summary of the content presented to you. No preamble or conclusions."},
+                {"role": "user", "content": clean_text},
+            ]
         )
-        genai.configure(api_key=API_KEY)
         
-        summary = model.generate_content(text)
-        
-        return summary
-    
+        print("Finished summarizing...")
+        print(response.choices[0].message.content)
+        return response.choices[0].message.content
+            
     def model_chat(self):
         messages = self.request.get_formatted_history()
         pprint.pprint(messages)
         API_KEY = os.getenv("GEMINI_API_KEY", "")
         model = genai.GenerativeModel(
             'gemini-pro', 
-            tools=[self.get_relevant_context_from_vector_store, self.summarize_text]
+            tools=[self.get_relevant_context_from_vector_store]
         )
         genai.configure(api_key=API_KEY, transport='rest')
         
@@ -86,8 +98,9 @@ class DocumentChatHandler:
                 user_query=self.request.new_question
             )
         
+        
         print(prompt)
-        chat = model.start_chat(history=messages, 
+        chat = model.start_chat(
             enable_automatic_function_calling=True
         )
         

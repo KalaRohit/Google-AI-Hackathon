@@ -3,6 +3,7 @@ fastapi==0.110.1
 websockets==12.0
 python-multipart==0.0.9
 vertexai==1.46.0
+openai==1.16.2
 pyaml
 uvicorn
 qdrant-client

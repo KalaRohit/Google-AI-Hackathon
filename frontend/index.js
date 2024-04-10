@@ -6,7 +6,7 @@ function runFunction() {
     function changeBgColor(){
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
             // Send a message to the current tab
-            chrome.tabs.sendMessage(tabs[0].id, {message: "turn_blue"});
+            chrome.tabs.sendMessage(tabs[0].id, {message: "switch_text"});
         })
     }
 }

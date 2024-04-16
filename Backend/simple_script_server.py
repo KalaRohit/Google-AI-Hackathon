@@ -1,22 +1,13 @@
-from pydoc import doc
-from proto import Message
 import yaml
 import os
-import logging
-import time
-import asyncio
-import uuid
-from typing import Annotated
-
 
 import google.generativeai as genai
-from fastapi import FastAPI, WebSocket, HTTPException, UploadFile, BackgroundTasks
-from fastapi.responses import StreamingResponse, RedirectResponse
+from fastapi import FastAPI, HTTPException, UploadFile, BackgroundTasks
+from fastapi.responses import StreamingResponse
 
 from RequestHandlers.DocumentHandler import DocumentHandler
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
 
-from Datamodels.Message import Message
 from Datamodels.Requests import SummarizeRequest, DocumentChatRequest
 from Datamodels.Responses import DocumentUploadResponse
 

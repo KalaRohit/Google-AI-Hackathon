@@ -11,7 +11,7 @@ from RequestHandlers.DocumentChatHandler import DocumentChatHandler
 from Datamodels.Requests import SummarizeRequest, DocumentChatRequest
 from Datamodels.Responses import DocumentUploadResponse
 
-app = FastAPI()
+app = FastAPI(root_path="/server")
 
 def get_gemini_api_key() -> str:
     return os.getenv("GEMINI_API_KEY", "")

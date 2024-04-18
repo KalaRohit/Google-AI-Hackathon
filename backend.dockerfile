@@ -9,6 +9,6 @@ RUN adduser --disabled-password --gecos "" appuser
 RUN chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 8000
+EXPOSE 80
 
-CMD uvicorn simple_script_server:app --port 8000 --host 0.0.0.0
+CMD uvicorn simple_script_server:app --port 80 --host 0.0.0.0

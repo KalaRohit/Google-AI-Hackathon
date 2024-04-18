@@ -1,6 +1,6 @@
 import uuid
 from fastapi import UploadFile
-from typing import List, AsyncGenerator, Tuple
+from typing import List, AsyncGenerator
 from io import BytesIO
 
 from qdrant_client import QdrantClient
@@ -44,7 +44,7 @@ class DocumentHandler:
             vector_id = str(vector_id)
             
             qdrant_client.upsert(
-                collection_name=self.document_id,
+                collection_name=str(self.document_id),
                 points=[PointStruct(id=vector_id, vector=embeddings, payload={"content": page_text})]
             )
                 

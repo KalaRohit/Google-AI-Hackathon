@@ -25,3 +25,12 @@ orechestrator-prompt: >
 
   User's query: {user_query}
   Current Response: {current_response}
+
+
+map-document-summarize-prompt: >
+  The following is a set of documents: {docs}
+  Based on this list of docs, please identify the main themes 
+
+reduce-document-summarize-prompt: >
+  The following is set of summaries: {docs}
+  Take these and distill it into a final, consolidated summary of the main themes.

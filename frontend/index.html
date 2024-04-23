@@ -3,9 +3,60 @@
     <script src="index.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  </head>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        #resizable 
+        {
+          display: inline-block;
+          padding: 0px 16px 16px 16px;
+            resize: horizontal;
+            min-inline-size: 200px;
+            max-inline-size: 680px;
+            height: auto;
+            overflow: auto;
+        }
+    </style>
+    <div class="header d-flex justify-content-between align-items-center" >
+      <h4>SimpleScript</h4>
+      <!-- <button type="button" class="btn-close" onclick="window.close();"></button> -->
+  </div>
+  
   <body>
-    <h1>Welcome to SimpleScript</h1>
-    <button id="primary-button" type="button" class="btn btn-primary">Click Me</button>
-    <p>Hello there</p>
+    <div id="resizable">
+      <div class="settings mt-3">
+          <div class="d-flex justify-content-between align-items-center">
+              <h6>Simplify Text</h6>
+              <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+              </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-2">
+              <h6>Reading Level</h6>
+          </div>
+
+          <select class="form-select" aria-label="Default select example" id="ReadingLevel">
+            <option value="1">Basic - Grade 4</option>
+            <option selected value="2">Average - Grade 7</option>
+            <option value="3">Skilled - Grade 12</option>
+          </select>
+
+          <!-- <input type="range" class="form-range" min="0" max="13" step="1" id="customRange3"> -->
+      </div>
+      <!-- <hr> -->
+      <!-- <div class="container">
+        <p>Click 'Start Chat' to begin chatbot assistance</p>
+        <button class="btn btn-primary w-100 mt-3" id="startChatBtn">Start Chat</button>
+    
+        <div class="mt-3" id="chatControls" style="display: none;">
+          <button class="btn btn-outline-secondary mt-2">Option 1</button>
+          <button class="btn btn-outline-secondary mt-2">Option 2</button>
+          <button class="btn btn-outline-secondary mt-2">Option 3</button>
+          <input type="search" class="form-control" placeholder="Search...">
+        </div> -->
+      </div>
   </body>
 </html>

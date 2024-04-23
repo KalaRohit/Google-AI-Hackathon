@@ -1,10 +1,13 @@
-// Receive message from the popup
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-    if(request.message == "switch_text"){
-        // Only <p> elements will be simplified
-        document.querySelectorAll('p').forEach(switchText);
-    }
-})
+
+let request = null; 
+chrome.runtime.onMessage.addListener(function(req, sender, sendResponse){ request = req; console.log(request); 
+    if(request.message == "switch_text"){ 
+        console.log('switching text!'); 
+    document.querySelectorAll('p').forEach(switchText); 
+    } 
+    if (request.message == "change_grade"){ 
+        console.log(request.grade); 
+    } })
 
 async function switchText(p) {
     // pass p to backend, and get the model output

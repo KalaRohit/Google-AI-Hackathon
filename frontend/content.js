@@ -1,11 +1,11 @@
 
 let request = null; 
 chrome.runtime.onMessage.addListener(function(req, sender, sendResponse){ request = req; console.log(request); 
-    if(request.message == "switch_text"){ 
+    if(request.message === "switch_text"){ 
         console.log('switching text!'); 
     document.querySelectorAll('p').forEach(switchText); 
     } 
-    if (request.message == "change_grade"){ 
+    if (request.message === "change_grade"){ 
         console.log(request.grade); 
     } })
 

@@ -1,11 +1,12 @@
 
 html
 .header {
-     padding: 16px; /* All sides */
-        background-color: rgb(1, 72, 24);
+    padding: 16px; /* All sides */
+    background-color: #a5b452;
+    color: black;
 }
 .header h4 {
-    color: #e8e8e8;
+    color: black;
     width: auto;
     height: auto;
     margin-top: 8px;
@@ -20,14 +21,14 @@ html
 }
 
 .btn-primary {
-    background-color: #0a8130;/
+    background-color: #a5b452;
 }
 .form-check-input {
     cursor: pointer;
 }
 .form-check-input:checked {
-    background-color: #0a8130;
-    border-color: #0a8130;
+    background-color: #a5b452;
+    border-color: #a5b452;
 }
 .form-control {
     margin-top: 8px;

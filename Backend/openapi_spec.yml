@@ -1,0 +1,32 @@
+swagger: "2.0"
+info:
+  title: "simple-script-api"
+  description: "API for the backend service of Simple Script"
+  version: "1.0.0"
+schemes:
+  - "https"
+paths:
+  "/v1/model/gemini-pro:simplify":
+    post:
+      description: "An end-point that takes in a string and returns a simplified version of that string by calling Gemini API."
+      operationId: "simplify" 
+      parameters:
+        -
+          name: request_id
+          required: true
+          type: string
+        -
+          name: text
+          required: true
+          type: string
+        -
+          name: target_reading_level
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Simplified text returned."
+          schema:
+            type: string
+        500:
+          description: "Gemini Failed to respond."

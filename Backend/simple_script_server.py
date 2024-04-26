@@ -1,9 +1,10 @@
 import yaml
 import os
+import asyncio
 
 import google.generativeai as genai
 from fastapi import FastAPI, HTTPException, UploadFile, BackgroundTasks
-from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from RequestHandlers.DocumentHandler import DocumentHandler
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
@@ -12,6 +13,17 @@ from Datamodels.Requests import SummarizeRequest, DocumentChatRequest
 from Datamodels.Responses import DocumentUploadResponse
 
 app = FastAPI(root_path="/server")
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_gemini_api_key() -> str:
     return os.getenv("GEMINI_API_KEY", "")
@@ -24,7 +36,7 @@ async def root():
 async def create_heading(req_body):
     pass
 
-@app.post("/v1/model/gemini-pro:summarize")
+@app.post("/v1/model/gemini-pro:simplify")
 async def summarize_text(req_body: SummarizeRequest):
     api_key = get_gemini_api_key()
     
@@ -43,21 +55,12 @@ async def summarize_text(req_body: SummarizeRequest):
     
     genai.configure(api_key=api_key, transport="grpc")    
     model = genai.GenerativeModel('gemini-pro')
-    
-    def stream_model_output():
-        try:
-            response = model.generate_content(
-                summarize_prompt,
-                stream=True
-            )
-            
-            for chunk in response:
-                for char in chunk.text:
-                    yield char
-        except Exception:
+    try:
+        response = model.generate_content(summarize_prompt)
+    except Exception:
             raise HTTPException(500, detail="Gemini model failed to respond.")
         
-    return StreamingResponse(stream_model_output(), media_type="text")
+    return response.text
 
 @app.post("/v1/model/gemini-pro:document-chat")
 async def webpage_chat(request: DocumentChatRequest):

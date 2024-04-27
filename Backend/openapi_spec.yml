@@ -5,28 +5,51 @@ info:
   version: "1.0.0"
 schemes:
   - "https"
+produces:
+  - application/json
+x-google-backend:
+  address: https://simple-script-backend-kabidd7ohq-uc.a.run.app
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
 paths:
-  "/v1/model/gemini-pro:simplify":
+  /v1/model/gemini-pro:simplify:
     post:
-      description: "An end-point that takes in a string and returns a simplified version of that string by calling Gemini API."
-      operationId: "simplify" 
+      description: "An endpoint that takes in a string and returns a simplified version of that string by calling Gemini API."
+      operationId: "simplify"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       parameters:
-        -
-          name: request_id
+        - name: "simplifyRequest"
+          in: "body"
+          description: "Request data containing all necessary parameters"
           required: true
-          type: string
-        -
-          name: text
-          required: true
-          type: string
-        -
-          name: target_reading_level
-          required: true
-          type: string
+          schema:
+            type: "object"
+            required:
+              - request_id
+              - text
+              - target_reading_level
+            properties:
+              request_id:
+                type: "string"
+              text:
+                type: "string"
+              target_reading_level:
+                type: "string"
       responses:
         200:
           description: "Simplified text returned."
           schema:
-            type: string
+            type: "object"
+            properties:
+              simplifiedText:
+                type: "string"
         500:
-          description: "Gemini Failed to respond."
+          description: "Gemini API failed to respond."
+      security:
+        - api_key: []

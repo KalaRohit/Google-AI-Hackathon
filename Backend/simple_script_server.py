@@ -3,6 +3,7 @@ import os
 import asyncio
 
 import google.generativeai as genai
+from vertexai import generative_models
 from fastapi import FastAPI, HTTPException, UploadFile, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,6 +24,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 def get_gemini_api_key() -> str:
@@ -36,8 +38,8 @@ async def root():
 async def create_heading(req_body):
     pass
 
-@app.post("/v1/model/gemini-pro:simplify")
-async def summarize_text(req_body: SummarizeRequest):
+
+async def get_summary(req_body: SummarizeRequest):
     api_key = get_gemini_api_key()
     
     try:
@@ -52,15 +54,36 @@ async def summarize_text(req_body: SummarizeRequest):
         target_reading_level=req_body.target_reading_level,
         raw_text = req_body.text
     )
-    
+        
     genai.configure(api_key=api_key, transport="grpc")    
     model = genai.GenerativeModel('gemini-pro')
+    
+    await asyncio.sleep(0.3)
+    response = model.generate_content(summarize_prompt)
+    
     try:
-        response = model.generate_content(summarize_prompt)
-    except Exception:
-            raise HTTPException(500, detail="Gemini model failed to respond.")
-        
-    return response.text
+        return response.text
+    except ValueError as e:
+        print(response)
+        print(response.candidates[0].safety_ratings)
+        return req_body.text
+    
+@app.post("/v1/model/gemini-pro:simplify")
+async def simplify(req_body: SummarizeRequest):
+    tasks = []
+    tasks.append(get_summary(req_body))
+    
+    return await asyncio.gather(*tasks) 
+
+@app.options("/v1/model/gemini-pro:simplify")
+async def cors():
+    CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Max-Age": "3600",
+    }
+    return CORS_HEADERS
 
 @app.post("/v1/model/gemini-pro:document-chat")
 async def webpage_chat(request: DocumentChatRequest):

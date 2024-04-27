@@ -11,4 +11,4 @@ USER appuser
 
 EXPOSE 80
 
-CMD uvicorn simple_script_server:app --port 80 --host 0.0.0.0
+CMD uvicorn simple_script_server:app --port 80 --host 0.0.0.0 --workers 10

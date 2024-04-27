@@ -1,34 +1,46 @@
 
 let request = null; 
 chrome.runtime.onMessage.addListener(
-        function(req, sender, sendResponse){ 
-            request = req; console.log(request); 
-            if(request.message === "switch_text"){ 
-                console.log('switching text!'); 
-            document.querySelectorAll('p').forEach(switchText); 
-            } 
-            if (request.message === "change_grade"){ 
-                console.log(request.grade); 
-            } 
+    async function(req, sender, sendResponse){ 
+        if(req.message === "switch_text"){ 
+            document.querySelectorAll('p').forEach(await switchText); 
+        }
+
+        if (req.message === "change_grade"){ 
+        } 
     }
 )
 
-async function switchText(p) {
-    // pass p to backend, and get the model output
-    const model_output = await simplifyText(p);
-    p.textContent =  model_output.fact;
+async function getUserCredentials() {
+    const userCredentialFilePath = chrome.runtime.getURL("creds.json");
+    let credsFile = await fetch(userCredentialFilePath);
+    let credsFileData = await credsFile.json();
+
+    return credsFileData;
 }
 
-async function simplifyText(p) {
-    // This is the object being sent to the server
+async function switchText(p) {
+    const model_output = await simplifyText(p.textContent);
+    p.textContent =  model_output;
+}
+
+async function simplifyText(textContent) {
     var request_obj = {
         "request_id": "1",
-        "text": p,
-        "target_reading_level": 3
-    }
+        "text": textContent,
+        "target_reading_level": 1
+    };
 
-    const repsonse = await fetch("https://catfact.ninja/fact", {
-        method: "GET"
+    let userCreds = await getUserCredentials();
+    let userCredsData = await userCreds;
+    let apiKey = userCredsData.apikey;
+
+    const repsonse = await fetch(`https://simple-script-api-bplyx02o.uc.gateway.dev/v1/model/gemini-pro:simplify?key=${apiKey}`, {
+        method: "POST",
+        body: JSON.stringify(request_obj),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
 
     const model_output = await repsonse.json();

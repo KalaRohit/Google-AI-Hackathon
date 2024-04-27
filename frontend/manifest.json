@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Simple Script",
-    "description": "This is our description",
+    "description": "An extension that allows you to simplify the contents on a webpage.",
     "version": "1.0",
     "action": {
       "default_popup": "index.html"
@@ -14,7 +14,14 @@
         ]
       }
     ],
+    "web_accessible_resources": [
+      {
+        "resources": ["creds.json"],
+        "matches": ["<all_urls>"]
+      }
+    ],
     "background": {
       "service_worker": "background.js"
-    }
+    },
+    "host_permissions": ["https://simple-script-api-bplyx02o.uc.gateway.dev/*"]
   }

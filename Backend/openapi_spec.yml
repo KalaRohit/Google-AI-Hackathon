@@ -9,6 +9,10 @@ produces:
   - application/json
 x-google-backend:
   address: https://simple-script-backend-kabidd7ohq-uc.a.run.app
+  deadline: 45.0
+x-google-endpoints:
+- name: https://simple-script-api-bplyx02o.uc.gateway.dev
+  allowCors: True
 securityDefinitions:
   api_key:
     type: "apiKey"
@@ -53,3 +57,8 @@ paths:
           description: "Gemini API failed to respond."
       security:
         - api_key: []
+    options:
+        operationId: "cors"
+        responses:
+          '200':
+            description: A successful response

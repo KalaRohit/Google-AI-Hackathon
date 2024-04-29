@@ -1,12 +1,18 @@
+let simplify = false;
+let simplifyGrade = 7;
+let memoized = {};
 
-let request = null; 
 chrome.runtime.onMessage.addListener(
     async function(req, sender, sendResponse){ 
         if(req.message === "switch_text"){ 
-            document.querySelectorAll('p').forEach(await switchText); 
+            document.querySelectorAll('p')
+                .forEach(async (p) => {
+                    simplifyDocument(p);
+                }); 
         }
 
         if (req.message === "change_grade"){ 
+            simplifyGrade = req.grade;
         } 
     }
 )
@@ -19,7 +25,7 @@ async function getUserCredentials() {
     return credsFileData;
 }
 
-async function switchText(p) {
+async function simplifyDocument(p) {
     const model_output = await simplifyText(p.textContent);
     p.textContent =  model_output;
 }
@@ -28,9 +34,11 @@ async function simplifyText(textContent) {
     var request_obj = {
         "request_id": "1",
         "text": textContent,
-        "target_reading_level": 1
+        "target_reading_level": simplifyGrade
     };
 
+    console.log(request_obj);
+    
     let userCreds = await getUserCredentials();
     let userCredsData = await userCreds;
     let apiKey = userCredsData.apikey;

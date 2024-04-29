@@ -1,10 +1,11 @@
-document.addEventListener("DOMContentLoaded", runFunction);
-function runFunction() {
+document.addEventListener("DOMContentLoaded", onDocumentLoad);
+function onDocumentLoad() {
   let checkbox = document.getElementById("flexSwitchCheckDefault");
   let select = document.getElementById("ReadingLevel");
   select.addEventListener("change", outputSelection);
-  checkbox.addEventListener("click", changeBgColor);
-  function changeBgColor() {
+  checkbox.addEventListener("click", simplifyText);
+
+  function simplifyText() {
     chrome.tabs.query(
       { active: true, currentWindow: true },
 
@@ -13,6 +14,7 @@ function runFunction() {
       }
     );
   }
+
   function outputSelection() {
     var selectedOption = document.getElementById("ReadingLevel").value;
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -22,4 +24,5 @@ function runFunction() {
       });
     });
   }
+
 }

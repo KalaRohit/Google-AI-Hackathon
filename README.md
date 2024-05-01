@@ -10,7 +10,7 @@ The internet, at the content level, is not fully accessible to the general publi
 
 # Project Goal
 
-Our goal is to leverage the content-curating capabilities of generative AI to help users effortlessly understand most web content. We also aim to offer different reading levels, allowing users to select the literacy level they are most comfortable with when using AI to adjust web content.
+Our goal is to leverage the content-curating capabilities of generative AI to help users effortlessly understand most web content. We also aim to offer different reading levels allowing users to select the literacy level they are most comfortable with to adjust the web content.
 
 Additionally, we provide a chat function that lets users interact with the generative AI in the context of the entire webpage. For example, they can request summaries, ask questions about specific sections, and more.
 

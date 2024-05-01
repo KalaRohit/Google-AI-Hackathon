@@ -37,6 +37,15 @@ function onDocumentLoad() {
   }
 }
 
+async function getUserCredentials() {
+  const userCredentialFilePath = chrome.runtime.getURL("creds.json");
+  let credsFile = await fetch(userCredentialFilePath);
+  let credsFileData = await credsFile.json();
+
+  return credsFileData;
+}
+
+
 chrome.runtime.onMessage.addListener(
     async function(req, sender, sendResponse) {
       let spinner = document.getElementById("spinner");
@@ -106,7 +115,9 @@ const websiteChatCall = async () => {
 
   console.log(req_object);
 
-  const response = await fetch("http://localhost:8000/v1/model/gemini-pro:chat", {
+  
+
+  const response = await fetch(`https://simple-script-api-bplyx02o.uc.gateway.dev/v1/model/gemini-pro:chat?key=${apiKey}`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'

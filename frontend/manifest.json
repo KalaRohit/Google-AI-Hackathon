@@ -24,7 +24,9 @@
       "service_worker": "background.js"
     },
     "permissons": [
-      "storage"
+      "storage",
+      "https://simple-script-api-bplyx02o.uc.gateway.dev/*",
+      "https://server-kabidd7ohq-uc.a.run.app"
     ],
     "host_permissions": ["https://simple-script-api-bplyx02o.uc.gateway.dev/*"]
   }

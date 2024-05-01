@@ -16,7 +16,7 @@ from Datamodels.Requests import SimplifyRequest, DocumentChatRequest, WebpageCha
 from Datamodels.Responses import DocumentUploadResponse
 
 
-app = FastAPI(root_path="/server")
+app = FastAPI()
 origins = [
     "*"
 ]
@@ -25,7 +25,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST", "OPTIONS", "GET"],
     allow_headers=["*"],
     expose_headers=["*"]
 )

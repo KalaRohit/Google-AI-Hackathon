@@ -103,8 +103,8 @@ paths:
           description: "Gemini API failed to respond."
       security:
         - api_key: []
-      options:
-        operationId: "cors-chat"
-        responses:
-          '200':
-            description: A successful response
+    options:
+      operationId: "cors-chat"
+      responses:
+        '200':
+          description: A successful response`

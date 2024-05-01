@@ -18,7 +18,7 @@ class DocumentChatRequest(BaseModel):
     
         return gemini_compaitible_messages
     
-class SummarizeRequest(BaseModel):
+class SimplifyRequest(BaseModel):
     request_id: str
     text: str
     target_reading_level: int

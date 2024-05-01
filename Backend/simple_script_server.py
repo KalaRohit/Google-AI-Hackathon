@@ -1,6 +1,6 @@
 import yaml
 import os
-import asyncio
+import time
 
 import google.generativeai as genai
 from vertexai import generative_models
@@ -9,9 +9,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from RequestHandlers.DocumentHandler import DocumentHandler
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
+from RequestHandlers.SimplifyHandler import handle_simplify_request
 
-from Datamodels.Requests import SummarizeRequest, DocumentChatRequest
+from Datamodels.Requests import SimplifyRequest, DocumentChatRequest
 from Datamodels.Responses import DocumentUploadResponse
+
 
 app = FastAPI(root_path="/server")
 origins = [
@@ -37,52 +39,32 @@ async def root():
 @app.post("/v1/model/gemini-pro:generate-chat-heading")
 async def create_heading(req_body):
     pass
-
-
-async def get_summary(req_body: SummarizeRequest):
-    api_key = get_gemini_api_key()
-    
-    try:
-        with open("./prompts/gemini-pro.yml") as prompt_file:
-            summarize_prompt: str = yaml.safe_load(
-                prompt_file
-            )["webpage-summarize-prompt"]
-    except FileNotFoundError:
-        raise HTTPException(500, detail="Server failed to read prompt file.")
-    
-    summarize_prompt = summarize_prompt.format(
-        target_reading_level=req_body.target_reading_level,
-        raw_text = req_body.text
-    )
-        
-    genai.configure(api_key=api_key, transport="grpc")    
-    model = genai.GenerativeModel('gemini-pro')
-    
-    await asyncio.sleep(0.3)
-    response = model.generate_content(summarize_prompt)
-    
-    try:
-        return response.text
-    except ValueError as e:
-        print(response)
-        print(response.candidates[0].safety_ratings)
-        return req_body.text
     
 @app.post("/v1/model/gemini-pro:simplify")
-async def simplify(req_body: SummarizeRequest):
-    tasks = []
-    tasks.append(get_summary(req_body))
+def simplify(req_body: SimplifyRequest):
+    response = handle_simplify_request(req_body)
     
-    return await asyncio.gather(*tasks) 
+    return response
 
 @app.options("/v1/model/gemini-pro:simplify")
-async def cors():
+def simplify_cors():
     CORS_HEADERS = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "*",
-    "Access-Control-Allow-Headers": "*",
-    "Access-Control-Max-Age": "3600",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Max-Age": "3600",
     }
+    return CORS_HEADERS
+
+@app.options("/v1/model/gemini-pro:chat")
+def cors():
+    CORS_HEADERS = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Max-Age": "3600",
+    }
+    
     return CORS_HEADERS
 
 @app.post("/v1/model/gemini-pro:document-chat")

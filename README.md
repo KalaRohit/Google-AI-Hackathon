@@ -1,6 +1,6 @@
-# Elevator Pitch
+# Introduction
 
-SimpleScript: One-click Google Chrome extension that simplifies webpage text to your reading level, powered by generative AI.
+**SimpleScript is a One-click Google Chrome extension that simplifies webpage text to your reading level, powered by generative AI.**
 
 # Background
 

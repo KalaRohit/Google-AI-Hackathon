@@ -42,3 +42,22 @@ html
     color: black;
 }
 
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.simplify-progress-spinner {
+    display: none;
+}
+
+#resizable {
+    display: inline-block;
+    padding: 0px 16px 16px 16px;
+    min-inline-size: 200px;
+    max-inline-size: 680px;
+    height: auto;
+    width: 25rem;
+    overflow: auto;
+}

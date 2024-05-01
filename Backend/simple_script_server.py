@@ -8,10 +8,11 @@ from fastapi import FastAPI, HTTPException, UploadFile, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 
 from RequestHandlers.DocumentHandler import DocumentHandler
+from RequestHandlers.WebpageChatHandler import WebpageChatHandler
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
 from RequestHandlers.SimplifyHandler import handle_simplify_request
 
-from Datamodels.Requests import SimplifyRequest, DocumentChatRequest
+from Datamodels.Requests import SimplifyRequest, DocumentChatRequest, WebpageChatRequest
 from Datamodels.Responses import DocumentUploadResponse
 
 
@@ -67,8 +68,13 @@ def cors():
     
     return CORS_HEADERS
 
+@app.post("/v1/model/gemini-pro:chat")
+def webpage_chat(request: WebpageChatRequest):
+    handler = WebpageChatHandler(request=request)
+    return handler.model_chat()
+
 @app.post("/v1/model/gemini-pro:document-chat")
-async def webpage_chat(request: DocumentChatRequest):
+async def document_chat(request: DocumentChatRequest):
     print(type(request))
     chat_handler = DocumentChatHandler(request=request)
     

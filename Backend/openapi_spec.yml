@@ -62,3 +62,49 @@ paths:
         responses:
           '200':
             description: A successful response
+  /v1/model/gemini-pro:chat:
+    post:
+      description: "An endpoint that allows a user to chat with Gemini with a webpage!"
+      operationId: "chat"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+       - name: "chatRequest"
+         in: "body"
+         description: "Request data containing all necessary parameters"
+         required: true
+         schema:
+          type: "object"
+          required:
+            - request_id
+            - messages
+            - newQuestion
+            - webpageContent
+          properties:
+              request_id:
+                type: "string"
+              messages:
+                type: "object"
+              newQuestion:
+                type: "string"
+              webpageContent:
+                type: "string"
+      responses:
+        200:
+          description: "Simplified text returned."
+          schema:
+            type: "object"
+            properties:
+              simplifiedText:
+                type: "string"
+        500:
+          description: "Gemini API failed to respond."
+      security:
+        - api_key: []
+      options:
+        operationId: "cors-chat"
+        responses:
+          '200':
+            description: A successful response

@@ -4,9 +4,11 @@ function onDocumentLoad() {
   let select = document.getElementById("ReadingLevel");
   let spinner = document.getElementById("spinner");
   let mainbody = document.getElementById("main-body");
+  let chatButton = document.getElementById("start-chat")
 
   select.addEventListener("change", outputSelection);
   checkbox.addEventListener("click", toggleSimplification);
+  chatButton.addEventListener("click", startChatEvent)
 
   function toggleSimplification() {
     console.log("toggled!");
@@ -46,3 +48,94 @@ chrome.runtime.onMessage.addListener(
     }
   }
 )
+
+let userMessageHistory = []
+const startChatEvent = (e) => {
+  let chatButton = document.getElementById("start-chat");
+  let chatWindow = document.getElementById("chat-window");
+  let body = document.getElementById("resizable");
+  let submitButton = document.getElementById("submit-button");
+  submitButton.addEventListener("click", websiteChatCall);
+  chatButton.style.display = "none";
+  chatWindow.style.display = "flex";
+  body.classList.add("increase-animation");
+
+  let userMessage = document.getElementById("chat-input").value;
+
+  console.log(userMessage);
+}
+
+const fetchWebsiteData = async () => {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+        return;
+      }
+
+      chrome.tabs.sendMessage(tabs[0].id, { message: "get_webpage_content" }, (response) => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve(response);
+        }
+      });
+    });
+  });
+};
+
+const websiteChatCall = async () => {
+  let chatInput = document.getElementById("user-input");
+  let userMessage = chatInput.value;
+
+  const userMessageElement = document.createElement('p');
+  userMessageElement.textContent = userMessage;
+  userMessageElement.classList.add("human-messages");
+  document.getElementById('messages').appendChild(userMessageElement);
+  chatInput.value = "";
+
+  let webpageScrapeResponse = await fetchWebsiteData();
+  let webpageData = webpageScrapeResponse.content;
+
+  const req_object = JSON.stringify({
+    request_id: "asfdadsf",
+    messages: userMessageHistory,
+    newQuestion: userMessage,
+    webpageContent: webpageData
+  })
+
+  console.log(req_object);
+
+  const response = await fetch("http://localhost:8000/v1/model/gemini-pro:chat", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: req_object
+  })
+
+  modelOutput = await response.json();
+  const modelMessageElement = document.createElement('p');
+  modelMessageElement.textContent = modelOutput;
+  modelMessageElement.classList.add("model-messages");
+  document.getElementById('messages').appendChild(modelMessageElement);
+
+  const userMessageObject = {
+    role: "user",
+    parts: [userMessage]
+  };
+
+  const modelMessageObject = {
+    role: "model",
+    parts: [modelOutput]
+  };
+
+  userMessageHistory.push(userMessageObject);
+  userMessageHistory.push(modelMessageObject);
+
+  console.log("history: ",userMessageHistory)
+
+
+  console.log(modelOutput);
+  console.log("usermessage",  userMessage);
+}

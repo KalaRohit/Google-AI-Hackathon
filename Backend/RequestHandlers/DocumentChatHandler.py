@@ -6,7 +6,6 @@ import google.generativeai as genai
 from qdrant_client import QdrantClient
 from vertexai.language_models import TextEmbeddingModel
 
-from openai import OpenAI
 import yaml
 
 from Datamodels.Requests import DocumentChatRequest
@@ -49,34 +48,7 @@ class DocumentChatHandler:
             
             context += payload
         
-        context = self.summarize_text(text=context)
-        
         return context
-    
-    def summarize_text(self, text: str) -> str:
-        """
-        For some reason, gemini really struggled to map reduce the context in this call,
-        using gpt-4 turbo for this use case as gemini 1.5 isn't publicly available.
-        
-        gpt-4 turbo can handle upto 20, gemini can barely do 1-2...
-        """
-        print("In summarize text...")
-        print(text)
-        pattern = r'\\|[\n\r\t\f\v]'
-        replacement = ' '
-        clean_text = re.sub(pattern, replacement, text)
-        
-        client = OpenAI()
-
-        response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
-            messages=[
-                {"role": "system", "content": "You are to give an overview summary of the content presented to you. No preamble or conclusions."},
-                {"role": "user", "content": clean_text},
-            ]
-        )
-        
-        return response.choices[0].message.content
             
     def model_chat(self):
         messages = self.request.get_formatted_history()

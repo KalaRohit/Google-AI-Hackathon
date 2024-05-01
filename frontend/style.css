@@ -52,12 +52,73 @@ html
     display: none;
 }
 
+.start-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #resizable {
     display: inline-block;
     padding: 0px 16px 16px 16px;
     min-inline-size: 200px;
     max-inline-size: 680px;
-    height: auto;
+    height: 250px;
     width: 25rem;
     overflow: auto;
+}
+
+.increase-animation {
+    animation: increaseHeight 0.5s ease-in-out forwards;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: 250px;
+    margin-bottom: 20px;
+    overflow: auto;
+}
+
+.chat-window {
+    display: none;
+    flex-direction: column;
+}
+
+.model-messages {
+    background-color: #b3b3b3;   
+    color: #000000;              
+    padding: 15px;                         
+    border-radius: 10px;
+    width: 75%;         
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.human-messages {
+    display: flex;
+    background-color: #a5b452;   
+    color: #000000;              
+    padding: 15px;
+    align-self: flex-end;               
+    width: 75%;         
+    border-radius: 10px;     
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.textarea {
+    margin-top: 0px;
+}
+
+
+@keyframes increaseHeight {
+    from {
+        height: 250px;
+        width: 25rem;
+    }
+    to {
+        height: 500px;
+        width: 50rem;
+    }
 }

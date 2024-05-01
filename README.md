@@ -4,7 +4,7 @@
 
 # Background
 
-According to recent statistics, 54% of the US population reads below a 6th-grade level [[1]](#1). This means that over half of the population might find it challenging to read and understand an average Wikipedia page, which typically has a 14th-grade reading level [[2]](#2). This issue may be even worse in less literate countries.
+According to recent statistics, 54% of the US population reads below a 6th-grade level [[1]](#1). This implies that over half of the population might find it challenging to read and understand an average Wikipedia page, which typically has a 14th-grade reading level [[2]](#2). This issue may be even worse in less literate countries.
 
 The internet, at the literacy level, is not fully accessible to the general public. Fortunately, state-of-the-art generative AI technology excels at summarizing and rewriting text, inspiring us to use this technology to make webpages understandable to everyone, effortlessly.
 

@@ -6,13 +6,13 @@ from fastapi import HTTPException
 import google.generativeai as genai
 from retry import retry
 
-from Datamodels.Requests import SummarizeRequest
+from Datamodels.Requests import SimplifyRequest
 
 def get_gemini_api_key() -> str:
     return os.getenv("GEMINI_API_KEY", "")
 
 @retry(tries=3, delay=2)
-def handle_simplify_request(req_body: SummarizeRequest):
+def handle_simplify_request(req_body: SimplifyRequest):
     api_key = get_gemini_api_key()
     time.sleep(0.2)
     

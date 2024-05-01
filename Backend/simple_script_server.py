@@ -11,7 +11,7 @@ from RequestHandlers.DocumentHandler import DocumentHandler
 from RequestHandlers.DocumentChatHandler import DocumentChatHandler
 from RequestHandlers.SimplifyHandler import handle_simplify_request
 
-from Datamodels.Requests import SummarizeRequest, DocumentChatRequest
+from Datamodels.Requests import SimplifyRequest, DocumentChatRequest
 from Datamodels.Responses import DocumentUploadResponse
 
 
@@ -41,12 +41,22 @@ async def create_heading(req_body):
     pass
     
 @app.post("/v1/model/gemini-pro:simplify")
-def simplify(req_body: SummarizeRequest):
+def simplify(req_body: SimplifyRequest):
     response = handle_simplify_request(req_body)
     
     return response
 
 @app.options("/v1/model/gemini-pro:simplify")
+def simplify_cors():
+    CORS_HEADERS = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Max-Age": "3600",
+    }
+    return CORS_HEADERS
+
+@app.options("/v1/model/gemini-pro:chat")
 def cors():
     CORS_HEADERS = {
         "Access-Control-Allow-Origin": "*",
@@ -54,6 +64,7 @@ def cors():
         "Access-Control-Allow-Headers": "*",
         "Access-Control-Max-Age": "3600",
     }
+    
     return CORS_HEADERS
 
 @app.post("/v1/model/gemini-pro:document-chat")

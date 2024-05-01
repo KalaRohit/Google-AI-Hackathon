@@ -4,7 +4,7 @@
 
 # Background
 
-According to recent statistics, 54% of the US population reads below a 6th-grade level [[1]](#1), making standard sources like Wikipedia, which typically have a 14th-grade reading level [[2]](#2), inaccessible to over half of the population. This issue may be even more pronounced in less literate countries.
+According to recent statistics, 54% of the US population reads below a 6th-grade level [[1]](#1), making standard sources like Wikipedia, which typically have a 14th-grade reading level [[2]](#2), inaccessible to over half of the population. This issue may be even worse in less literate countries.
 
 The internet, at the content level, is not fully accessible to the general public. Fortunately, state-of-the-art generative AI technology excels at summarizing and rewriting text, inspiring us to use this technology to make webpages understandable to everyone, effortlessly.
 

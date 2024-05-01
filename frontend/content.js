@@ -59,8 +59,6 @@ async function simplifyText(textContent) {
         "target_reading_level": simplifyGrade
     };
 
-    console.log(requestObj);
-
     let userCreds = await getUserCredentials();
     let userCredsData = await userCreds;
     let apiKey = userCredsData.apikey;
@@ -73,14 +71,13 @@ async function simplifyText(textContent) {
         }
     });
 
-    // const repsonse = await fetch(`http://localhost:8000/v1/model/gemini-pro:simplify`, {
+    // const repsonse = await fetch(`http://127.0.0.1:8000/v1/model/gemini-pro:simplify`, {
     //     method: "POST",
     //     body: JSON.stringify(requestObj),
     //     headers: {
     //         'Content-Type': 'application/json'
     //     }
-    // });
-
+    // }); //for dev stuff
 
     const model_output = await repsonse.json();
 

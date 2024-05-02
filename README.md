@@ -1,3 +1,4 @@
+
 # Introduction
 
 **SimpleScript is a One-click Google Chrome extension that simplifies webpage text to your reading level, powered by generative AI.**
@@ -60,3 +61,4 @@ Data Source: https://www.thinkimpact.com/literacy-statistics/
 
 <a id="2">[2]</a>
 Data Source: https://firstmonday.org/ojs/index.php/fm/article/view/3916/3297#:~:text=URL%3A%20https%3A%2F%2Ffirstmonday,100
+=======

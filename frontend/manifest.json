@@ -6,6 +6,12 @@
     "action": {
       "default_popup": "index.html"
     },
+    "icons": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    },
     "content_scripts": [
       {
         "js": ["content.js"],
@@ -24,7 +30,9 @@
       "service_worker": "background.js"
     },
     "permissons": [
-      "storage"
+      "storage",
+      "https://simple-script-api-bplyx02o.uc.gateway.dev/*",
+      "https://server-kabidd7ohq-uc.a.run.app"
     ],
     "host_permissions": ["https://simple-script-api-bplyx02o.uc.gateway.dev/*"]
   }

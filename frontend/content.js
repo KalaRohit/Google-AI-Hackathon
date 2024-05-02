@@ -2,6 +2,7 @@ let simplify = false;
 let simplifyGrade = 7;
 let memoized = {};
 let isLoading = false;
+let history = [];
 
 chrome.runtime.onMessage.addListener(
     async function(req, sender, sendResponse){ 
@@ -14,7 +15,7 @@ chrome.runtime.onMessage.addListener(
                     const response = await chrome.runtime.sendMessage(
                         {message: "simplify-complete"}
                     );
-                    console.log(response);
+                    
                 })();
             }
         }
@@ -22,9 +23,13 @@ chrome.runtime.onMessage.addListener(
         if (req.message === "change_grade"){ 
             simplifyGrade = req.grade;
         } 
+
+        if (req.message === "get_webpage_content") {
+            const content = await gatherPElementText();
+            sendResponse({content: content})
+        }
     }
 )
-
 
 function sleep(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
@@ -32,7 +37,7 @@ function sleep(milliseconds) {
 
 async function swapParagraphElementText() {
     const promises = Array.from(document.querySelectorAll('p')).map(p => 
-        sleep(750).then(() => simplifyDocument(p))
+        sleep(1500).then(() => simplifyDocument(p))
     );
     await Promise.allSettled(promises);
 }
@@ -82,6 +87,13 @@ async function simplifyText(textContent) {
     const model_output = await repsonse.json();
 
     return model_output;
+}
+
+async function gatherPElementText() {
+    let paragraphs = document.querySelectorAll('p');
+    let allText = Array.from(paragraphs).map(p => p.textContent).join('\n');
+    
+    return allText;
 }
 
 function revertSimplification() {

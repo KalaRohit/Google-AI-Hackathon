@@ -28,7 +28,12 @@ This is a placeholder for Rohit.
 
 # Future Work
 
-This is a placeholder for Kay.
+To enhance functionality and user experience, we have several future developments planned for SimpleScript:
+
+- **Document Integration**: We'll enable SimpleScript to not only simplify webpages but also documents like PDFs or Word files.
+- **Speed Improvements**: Continuous code optimization will make SimpleScript faster and more efficient.
+- **Pre-set Chat Prompts**: We'll add commonly used prompts like 'Summarize this page for me,' reducing the need for manual typing.
+- **Responsive Design**: We aim to create a flexible design for SimpleScript, allowing users to adjust its size and position to fit their screen and website layout.
 
 ---
 # References

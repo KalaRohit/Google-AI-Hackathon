@@ -45,6 +45,7 @@ To enhance functionality and user experience, we have several future development
 - **Speed Improvements**: Continuous code optimization will make SimpleScript faster and more efficient.
 - **Pre-set Chat Prompts**: We'll add commonly used prompts like 'Summarize this page for me,' reducing the need for manual typing.
 - **Responsive Design**: We aim to create a flexible design for SimpleScript, allowing users to adjust its size and position to fit their screen and website layout.
+- **Security**: We would need to improve our application security, as our API does not validate any user input currently. We would need to implement a robust layer of validation to ensure safe and fair usage of Generative AI in our application.
 
 ---
 # References

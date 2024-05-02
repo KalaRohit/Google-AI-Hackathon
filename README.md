@@ -18,7 +18,7 @@ Additionally, we provide a chat function that lets users interact with the gener
 
 This is a placeholder.
 
-# Learning
+# Future Work & Feedback
 
 This is a placeholder
 

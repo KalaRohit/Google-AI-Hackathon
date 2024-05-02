@@ -115,7 +115,10 @@ const websiteChatCall = async () => {
 
   console.log(req_object);
 
-  
+  let userCreds = await getUserCredentials();
+  let userCredsData = await userCreds;
+  let apiKey = userCredsData.apikey;
+
 
   const response = await fetch(`https://simple-script-api-bplyx02o.uc.gateway.dev/v1/model/gemini-pro:chat?key=${apiKey}`, {
     method: "POST",

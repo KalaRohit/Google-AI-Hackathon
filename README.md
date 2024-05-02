@@ -20,6 +20,8 @@ Our frontend is a Chrome extension created entirely using HTML, CSS and JavaScri
 
 For our deployment process, the frontend was just loaded into chrome as a dev unloaded extension which is what we used to demo. To fully ship the extension, we would need to pack it and publish it to the Chrome Extension store. Our backend was first put into a docker image, whose container is run on an internal Cloudrun in the Google Cloud Platform. These dockerfiles were stored in GCP's Artifact Registry, allowing us to quickly deploy new revisions when we updated the backend. Finally, we used an API gateway which has permission to invoke our backend Cloudrun to allow only authenticated end users from hitting our API. This would allow us to easily add more robust authentication such as Oauth2 later down the line to only allow us to serve authenticated users with our API. However, we are only using Basic Auth in the demo.
 
+![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/42-documentation/Google%20AI%20Hackathon.png)
+
 # Challenges
 
 Our biggest challenge for this demo was CORS. Since the API Gateway did not natively support CORS from our server's middleware, we had to manually handle the Options request made by CORS in our API layer. Additionally, webpages constatly ran us into rate limit issues for Gemini due to the sheer amount of content present. Finally, Gemini blocked a lot of educational content despite them being in well-respected resources such as Wikipedia, and we were unable to change the model's default filters as it constantly errored when we tried to lower the filters.  

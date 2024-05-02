@@ -16,11 +16,19 @@ Additionally, we provide a chat function that lets users interact with the gener
 
 # How We Built It
 
-This is a placeholder.
+This is a placeholder for Rohit.
 
-# Future Work & Feedback
+# Challenges
 
-This is a placeholder
+This is a placeholder for Rohit.
+
+# Feedbacks
+
+This is a placeholder for Rohit.
+
+# Future Work
+
+This is a placeholder for Kay.
 
 ---
 # References

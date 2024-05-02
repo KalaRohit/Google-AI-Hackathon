@@ -1,7 +1,7 @@
 
 html
 .header {
-    padding: 16px; /* All sides */
+    padding: 8px 8px; /* All sides */
     background-color: #a5b452;
     color: black;
 }
@@ -63,8 +63,8 @@ html
     padding: 0px 16px 16px 16px;
     min-inline-size: 200px;
     max-inline-size: 680px;
-    height: 250px;
-    width: 25rem;
+    height: 200px;
+    width: 22.5rem;
     overflow: auto;
 }
 
@@ -87,24 +87,24 @@ html
 }
 
 .model-messages {
-    background-color: #b3b3b3;   
+    background-color: #a5b452;   
     color: #000000;              
     padding: 15px;                         
     border-radius: 10px;
     width: 75%;         
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
 }
 
 
 .human-messages {
     display: flex;
-    background-color: #a5b452;   
+    background-color: #ededed;   
     color: #000000;              
     padding: 15px;
     align-self: flex-end;               
     width: 75%;         
     border-radius: 10px;     
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
 }
 
 .textarea {
@@ -122,3 +122,41 @@ html
         width: 50rem;
     }
 }
+
+p{margin: 0;}
+
+#logo-image{
+    margin-right: 8px;
+}
+
+.form-switch.form-switch-xl .form-check-input {
+    height: 2rem;
+    width: calc(3rem + 0.75rem);
+    border-radius: 4rem;
+  }
+
+#ReadingLevel{
+    width: 200px;
+}
+
+#simplify-switch-box{
+    margin-bottom: 12px;
+}
+
+#start-chat{
+    width: 100%;
+    color: black;
+}
+
+#submit-button{
+    color: black;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #d9d9d9;
+    margin: 1em 0;
+    padding: 0;
+  }

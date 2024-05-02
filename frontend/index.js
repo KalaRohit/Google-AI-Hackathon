@@ -11,7 +11,6 @@ function onDocumentLoad() {
   chatButton.addEventListener("click", startChatEvent)
 
   function toggleSimplification() {
-    console.log("toggled!");
     spinner.style.display = "block";
     mainbody.style.display = "none";
     
@@ -50,7 +49,6 @@ chrome.runtime.onMessage.addListener(
     async function(req, sender, sendResponse) {
       let spinner = document.getElementById("spinner");
       let mainbody = document.getElementById("main-body");
-      console.log("received message back!")
       if(req.message === "simplify-complete"){
         spinner.style.display = "none";
         mainbody.style.display = "block"; 
@@ -71,7 +69,6 @@ const startChatEvent = (e) => {
 
   let userMessage = document.getElementById("chat-input").value;
 
-  console.log(userMessage);
 }
 
 const fetchWebsiteData = async () => {
@@ -113,8 +110,6 @@ const websiteChatCall = async () => {
     webpageContent: webpageData
   })
 
-  console.log(req_object);
-
   let userCreds = await getUserCredentials();
   let userCredsData = await userCreds;
   let apiKey = userCredsData.apikey;
@@ -146,10 +141,4 @@ const websiteChatCall = async () => {
 
   userMessageHistory.push(userMessageObject);
   userMessageHistory.push(modelMessageObject);
-
-  console.log("history: ",userMessageHistory)
-
-
-  console.log(modelOutput);
-  console.log("usermessage",  userMessage);
 }

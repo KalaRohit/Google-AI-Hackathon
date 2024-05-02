@@ -26,7 +26,6 @@ chrome.runtime.onMessage.addListener(
 
         if (req.message === "get_webpage_content") {
             const content = await gatherPElementText();
-            console.log(content);
             sendResponse({content: content})
         }
     }

@@ -16,17 +16,20 @@ Additionally, we provide a chat function that lets users interact with the gener
 
 # How We Built It
 
-Our frontend is a Chrome extension created entirely using HTML, CSS and JavaScript. We did not use node as our use POC use case was very simple, however, if our application were to go to production, we would need to use some of the more robust features built into packages in npm. This leads us to the API for Simple Script, which is written entirely in Python. Specifically, we use the FastAPI framework to create an application that would allow us to communicate with it from our extension running in a client's browser over HTTPS. We chose Python as it generally has the best SDKs when it comes to Generative AI. We were looking into creating a document upload and chat with it feature as well, and were planning on using QDrant DB, however, this did not fit in our scope for the POC. 
+### Current Implementation
 
-For our deployment process, the frontend was just loaded into chrome as a dev unloaded extension which is what we used to demo. To fully ship the extension, we would need to pack it and publish it to the Chrome Extension store. Our backend was first put into a docker image, whose container is run on an internal Cloudrun in the Google Cloud Platform. These dockerfiles were stored in GCP's Artifact Registry, allowing us to quickly deploy new revisions when we updated the backend. Finally, we used an API gateway which has permission to invoke our backend Cloudrun to allow only authenticated end users from hitting our API. This would allow us to easily add more robust authentication such as Oauth2 later down the line to only allow us to serve authenticated users with our API. However, we are only using Basic Auth in the demo.
+Our frontend consists of a Chrome extension developed with HTML, CSS, and JavaScript. We chose not to incorporate Node.js in this phase as the proof of concept (POC) required only basic functionality. The extension was loaded directly into Chrome as an unpacked extension for demonstration purposes.
+
+On the backend, we utilize the FastAPI framework in Python to facilitate communication between the Chrome extension and our server via HTTPS. This setup is contained within a Docker image, hosted on Google Cloud Platform’s Cloud Run. The Dockerfiles are stored in GCP's Artifact Registry, which simplifies the deployment of new backend revisions. Currently, for demo purposes, we implement Basic Authentication using the API gateway service provided by Google Cloud Platform. 
 
 ![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/42-documentation/Google%20AI%20Hackathon.png)
 
 # Challenges
 
-Our biggest challenge for this demo was CORS. Since the API Gateway did not natively support CORS from our server's middleware, we had to manually handle the Options request made by CORS in our API layer. Additionally, webpages constatly ran us into rate limit issues for Gemini due to the sheer amount of content present. Finally, Gemini blocked a lot of educational content despite them being in well-respected resources such as Wikipedia, and we were unable to change the model's default filters as it constantly errored when we tried to lower the filters.  
+Our biggest challenge for this demo was handling CORS, as our server's middleware did not natively support it through API Gateway. We had to manually manage the Options requests made by CORS at the API layer. Additionally, we frequently encountered rate limit issues with Gemini due to the extensive content on our webpages. Furthermore, Gemini blocked a significant amount of educational content, even from reputable sources like Wikipedia. Attempts to adjust the model's default filters were unsuccessful, as they consistently resulted in errors whenever we tried to lower the settings.
 
-# Feedbacks
+
+# Feedbacks for Cloud Services Used
 
 #### API Gateway
 
@@ -48,6 +51,7 @@ To enhance functionality and user experience, we have several future development
 - **Pre-set Chat Prompts**: We'll add commonly used prompts like 'Summarize this page for me,' reducing the need for manual typing.
 - **Responsive Design**: We aim to create a flexible design for SimpleScript, allowing users to adjust its size and position to fit their screen and website layout.
 - **Security**: We would need to improve our application security, as our API does not validate any user input currently. We would need to implement a robust layer of validation to ensure safe and fair usage of Generative AI in our application.
+- **User Privacy**: We would need to make it so that the user has to toggle the extension or whitelist certain websites that the extension can be used on out of respect for their privacy. 
 
 ---
 # References

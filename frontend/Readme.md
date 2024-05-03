@@ -16,5 +16,7 @@ First ensure that dev mode is enabled on Google Chrome by:
 4) Click on frontend, and load the extension.
 ![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/documentation%20stuff/4.png)
 
+5) Create a creds.json file in the frontend folder with the following API key: AIzaSyDz5cXrvuLL2J39Q9u7n6tqPj7VPBM0dME
+
 
 Use it as another extension!

@@ -4,7 +4,17 @@ First ensure that dev mode is enabled on Google Chrome by:
 
 1) Open the extensions menu by visting `chrome://extensions`:
 
+![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/documentation%20stuff/1.png)
+
 2) Ensure Dev Mode is on:
 
-3) Click on load unpacked and click on the frontend folder in the cloned repo:
+![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/documentation%20stuff/2.png)
 
+3) Click on load unpacked:
+![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/documentation%20stuff/3.png)
+
+4) Click on frontend, and load the extension.
+![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/documentation%20stuff/4.png)
+
+
+Use it as another extension!

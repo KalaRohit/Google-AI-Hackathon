@@ -23,7 +23,7 @@ Our frontend consists of a Chrome extension developed with HTML, CSS, and JavaSc
 
 On the backend, we utilize the FastAPI framework in Python to facilitate communication between the Chrome extension and our server via HTTPS. This setup is contained within a Docker image, hosted on Google Cloud Platform’s Cloud Run. The Dockerfiles are stored in GCP's Artifact Registry, which simplifies the deployment of new backend revisions. Currently, for demo purposes, we implement Basic Authentication using the API gateway service provided by Google Cloud Platform. 
 
-![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/Archdiagram.png)
+![alt text](https://github.com/KalaRohit/Google-AI-Hackathon/blob/main/Archdiagram2.png)
 
 # Challenges
 
